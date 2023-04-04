@@ -1,34 +1,38 @@
 <?php
+namespace Usuario\PessoaContato\Controller;
 use Usuario\PessoaContato\Model\Pessoa;
 require_once __DIR__.'/../vendor/autoload.php';
 
 class ControllerPessoa {
 
-    public function incluirPessoa(string $nome, string $cpf, $entityManager){
+    public function incluir(string $nome, string $cpf, $entityManager){
         $Pessoa = new Pessoa();
         $Pessoa->setNome($nome);
         $Pessoa->setCpf($cpf);
         $Pessoa->setEntityManager($entityManager);
         $Pessoa->inserir();
+        $this->view($entityManager);
     }
 
-    public function atualizaPessoa(int $id, string $nome, string $cpf, $entityManager){
+    public function atualiza(int $id, string $nome, string $cpf, $entityManager){
         $Pessoa = new Pessoa();
         $Pessoa = $entityManager->find('Usuario\PessoaContato\Model\Pessoa', $id);
         $Pessoa->setNome($nome);
         $Pessoa->setCpf($cpf);
         $Pessoa->setEntityManager($entityManager);
         $Pessoa->atualizar();
+        $this->view($entityManager);
     }
 
-    public function excluirPessoa(int $id, $entityManager){
+    public function excluir(int $id, $entityManager){
         $Pessoa = new Pessoa();
         $Pessoa = $entityManager->find('Usuario\PessoaContato\Model\Pessoa', $id);
         $Pessoa->setEntityManager($entityManager);
         $Pessoa->excluir();
+        $this->view($entityManager);
     }
 
-    public function visualizaPessoa(int $id, $entityManager){
+    public function visualiza(int $id, $entityManager){
         $Pessoa = new Pessoa();
         $Pessoa->setId($id);
         $Pessoa->setEntityManager($entityManager);
@@ -39,7 +43,8 @@ class ControllerPessoa {
     public function view($entityManager){
         $Pessoa = new Pessoa();
         $Pessoa->setEntityManager($entityManager);
-        $Pessoa->consultarPessoa();
+        $dados = $Pessoa->consultarPessoa();
+        require './View/Pessoa/viewPessoa.php';
     }
 
 
