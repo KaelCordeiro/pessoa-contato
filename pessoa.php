@@ -28,8 +28,7 @@ if ($acao != null) {
 			$nome = $_POST["nome"];
 			$cpf = $_POST["cpf"];
 			$ControllerPessoa->atualiza($codigo, $nome, $cpf, $entityManager);
-		}
-		
+			}
 	}
 	header('location:pessoa.php');
 } else {

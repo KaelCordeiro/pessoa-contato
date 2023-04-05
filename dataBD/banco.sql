@@ -1,0 +1,17 @@
+CREATE DATABASE banco;
+
+USE banco;
+
+CREATE TABLE pessoa(
+id INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR(255),
+cpf VARCHAR(255),
+PRIMARY KEY(id));
+
+CREATE TABLE contato(
+id INT NOT NULL AUTO_INCREMENT,
+tipo BOOLEAN,
+descricao VARCHAR(255),
+idPessoa int,
+PRIMARY KEY (id),
+FOREIGN KEY(idPessoa) REFERENCES pessoa(id));

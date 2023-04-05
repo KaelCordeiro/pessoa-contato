@@ -1,10 +1,8 @@
 <?php
 
-use Doctrine\ORM\EntityManager;
-use Usuario\PessoaContato\Model\Pessoa;
+namespace Usuario\PessoaContato\Controller;
 use Usuario\PessoaContato\Model\Contato;
 require_once __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/../src/EntityManagerFactory.php';
 
 class ControllerContato {
 
@@ -18,7 +16,7 @@ class ControllerContato {
         $Contato->setPessoa($pessoa);
         $Contato->setEntityManager($entityManager);
         $Contato->inserir();
-        echo 'Contato Criado ID '.$Contato->getId()."\n";
+        $this->viewContato($entityManager);
     }
 
     public function atualizaContato(int $idCont, bool $tipo, string $descricao, int $id, $entityManager){
@@ -30,7 +28,7 @@ class ControllerContato {
         $Contato->setPessoa($pessoa);
         $Contato->setEntityManager($entityManager);
         $Contato->atualizar();
-        echo 'Contato ID '.$Contato->getId(). ' atualizada' ."\n";
+        $this->viewContato($entityManager);
     }
 
     public function excluirContato(int $id, $entityManager){
@@ -38,7 +36,7 @@ class ControllerContato {
         $Contato = $entityManager->find('Usuario\PessoaContato\Model\Contato', $id);
         $Contato->setEntityManager($entityManager);
         $Contato->excluir();
-        echo 'Contato excluído com sucesso!';
+        $this->viewContato($entityManager);
     }
 
     public function visualizaContato(int $id, $entityManager){
@@ -48,12 +46,11 @@ class ControllerContato {
         $Contato->visualizarContato();
     }
 
-    public function consultaContato($entityManager){
+    public function viewContato($entityManager){
         $Contato = new Contato();
         $Contato->setEntityManager($entityManager);
-        foreach ($Contato->consultarContato() as $Contato) {
-            echo $Contato->getId().' '.$Contato->getDescricao().' | ';
-        }
+        $dados = $Contato->consultarContato();
+        require './View/Contato/viewContato.php';
     }
 
 
